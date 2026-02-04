@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tash Loves Poonoo 💕</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* FLOATING HEARTS */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 16px;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* ENVELOPE */
+    .envelope {
+      width: 70%;
+      max-width: 320px;
+      height: 150px;
+      background: #ffccd5;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s;
+    }
+
+    .envelope::before {
+      content: "📬 Open Me";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* CARD */
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 360px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      z-index: 2;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+    }
+
+    .card.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .photo-wrapper {
+      position: relative;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .photo-blur {
+      position: absolute;
+      inset: 0;
+      background-image: url("her-photo.jpeg"); /* replace with your photo */
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px);
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    .photo {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .buttons {
+      position: relative;
+      height: 60px;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    #yes {
+      background: #ff4d88;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    #no {
+      background: #eee;
+      color: #333;
+      position: absolute;
+      left: 140px;
+      top: 0;
+      transition: left 0.1s ease, top 0.1s ease;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENVELOPE -->
+  <div class="envelope" id="envelope"></div>
+
+  <!-- CARD -->
+  <div class="card" id="card">
+    <h1>Poonooo, will you be my Valentine?</h1>
+
+    <!-- PHOTO -->
+    <div class="photo-wrapper">
+      <div class="photo-blur"></div>
+      <img src="her-photo.jpeg" alt="Poonoo" class="photo">
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="buttons">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 😢</button>
+    </div>
+  </div>
+
+  <script>
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '💖';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = 14 + Math.random() * 20 + 'px';
+      heart.style.animationDuration = 3 + Math.random() * 2 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+
+    // Envelope click
+    const envelope = document.getElementById('envelope');
+    const card = document.getElementById('card');
+    envelope.addEventListener('click', () => {
+      envelope.style.transform = 'scale(0)';
+      card.classList.add('show');
+    });
+
+    // No button dodge
+    const noBtn = document.getElementById('no');
+    noBtn.addEventListener('mouseenter', () => {
+      const cardRect = card.getBoundingClientRect();
+      const maxX = cardRect.width - noBtn.offsetWidth;
+      const maxY = cardRect.height - noBtn.offsetHeight;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+    });
+
+    // Yes button redirect
+    document.getElementById('yes').addEventListener('click', () => {
+      window.location.href = "thanks.html";
+    });
+  </script>
+</body>
+</html>
